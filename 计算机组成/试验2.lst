@@ -1,0 +1,98 @@
+Microsoft (R) Macro Assembler Version 6.11		    06/10/19 12:40:00
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+ 0000 0010 0020 0030			AS DW 10H,20H,30H
+ 0006 0000				MAX DW 0
+ 0008 0000			    MIN DW 0;
+				    ;此处输入数据段代码  
+ 000A				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+ 0005  B9 0000			    MOV CX,0
+ 0008  BE 0000 R		    MOV SI,OFFSET AS
+ 000B  8B 04			    MOV AX,[SI]
+ 000D  83 C6 02			    ADD SI,2
+ 0010  8B 1C			    LI:MOV BX,[SI]
+ 0012  89 04			    MOV [SI],AX
+ 0014  8B C3			    MOV AX,BX
+ 0016  83 C6 02			    ADD SI,2
+ 0019  83 C1 01			    ADD CX,1
+ 001C  83 F9 02			    CMP CX,2
+ 001F  75 EF			    JNZ LI
+ 0021  83 EE 06			    SUB SI,6
+ 0024  89 04			    MOV [SI],AX
+ 0026  8B 04			    MOV AX,[SI]
+ 0028  A3 0008 R		    MOV MIN,AX
+ 002B  A3 0006 R		    MOV MAX,AX
+ 002E  83 C6 02			    ADD SI,2
+ 0031  8B 1C			    MOV BX,[SI]
+ 0033  3B D8			    CMP BX,AX
+ 0035  7C 11			    JL L1
+ 0037  89 1E 0006 R		    MOV MAX,BX
+ 003B  83 C6 02			    ADD SI,2
+ 003E  8B 14			    MOV DX,[SI]
+ 0040  3B DA			    CMP BX,DX
+ 0042  7F 11			    JG L4
+ 0044  89 16 0006 R		    MOV MAX,DX
+ 0048  83 C6 02			    L1:ADD SI,2
+ 004B  8B 1C			    	MOV BX,[SI]
+ 004D  3B D8			    	CMP BX,AX
+ 004F  7C 0C			    	JL L2
+ 0051  89 1E 0006 R		    	MOV MAX,BX
+ 0055  3B C2			    L4:CMP AX,DX
+ 0057  7F 00			    	JG L5
+ 0059  89 16 0008 R		    L5:MOV MIN,DX
+ 005D  8B 1C			    L2:mov bx,[si]
+ 005F  83 EE 02			    	SUB SI,2
+ 0062  8B 04			    	MOV AX,[SI]
+ 0064  3B D8			    	CMP BX,AX
+ 0066  7F 04			    	JG L3
+ 0068  89 1E 0008 R		    	MOV MIN,BX
+ 006C  A3 0008 R		    L3:MOV MIN,AX
+				    ;此处输入代码段代码
+ 006F  B4 4C			    MOV AH,4CH
+ 0071  CD 21			    INT 21H
+ 0073				CODES ENDS
+				    END START
+Microsoft (R) Macro Assembler Version 6.11		    06/10/19 12:40:00
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0073	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 000A	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+AS . . . . . . . . . . . . . . .	Word	 0000	  DATAS	
+L1 . . . . . . . . . . . . . . .	L Near	 0048	  CODES	
+L2 . . . . . . . . . . . . . . .	L Near	 005D	  CODES	
+L3 . . . . . . . . . . . . . . .	L Near	 006C	  CODES	
+L4 . . . . . . . . . . . . . . .	L Near	 0055	  CODES	
+L5 . . . . . . . . . . . . . . .	L Near	 0059	  CODES	
+LI . . . . . . . . . . . . . . .	L Near	 0010	  CODES	
+MAX  . . . . . . . . . . . . . .	Word	 0006	  DATAS	
+MIN  . . . . . . . . . . . . . .	Word	 0008	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+
+	   0 Warnings
+	   0 Errors

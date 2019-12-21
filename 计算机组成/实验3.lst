@@ -1,0 +1,90 @@
+Microsoft (R) Macro Assembler Version 6.11		    06/12/19 15:48:40
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+ 0000 48 45 4C 4C 4F 24			STRING DB 'HELLO$'
+ 0006 CF				KEY DB 207
+ 0007 20 20 20 4D 49 4E			MSG1 DB '   MING WEN:$'
+       47 20 57 45 4E 3A
+       24
+ 0014 20 20 20 4D 49 20			MSG2 DB '   MI WEN:$'
+       57 45 4E 3A 24
+				    ;此处输入数据段代码  
+ 001F				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+ 0005  8D 16 0007 R		    LEA DX,MSG1
+ 0009  B4 09			    MOV AH,09H
+ 000B  CD 21			    INT 21H
+ 000D  8D 16 0000 R		    LEA DX,STRING
+ 0011  B4 09			    MOV AH,09H
+ 0013  CD 21			    INT 21H
+ 0015  B9 0005			    MOV CX,5
+ 0018  8B D9			    LOOP1:MOV BX,CX
+ 001A  8A 87 FFFF R		    MOV AL,STRING[BX-1]
+ 001E  32 87 0005 R		    XOR AL,KEY[BX-1]
+ 0022  88 87 FFFF R		    MOV STRING[BX-1],AL
+ 0026  E2 F0			    LOOP LOOP1
+ 0028  8D 16 0014 R		    LEA DX,MSG2
+ 002C  B4 09			    MOV AH,09H
+ 002E  CD 21			    INT 21H
+ 0030  8D 16 0000 R		    LEA DX,STRING
+ 0034  B4 09			    MOV AH,09H
+ 0036  CD 21			    INT 21H
+ 0038  B9 0005			    MOV CX,5
+ 003B  8B D9			    LOOP2:MOV BX,CX
+ 003D  8A 87 FFFF R		    MOV AL,STRING[BX-1]
+ 0041  32 87 0005 R		    XOR AL,KEY[BX-1]
+ 0045  88 87 FFFF R		    MOV STRING[BX-1],AL
+ 0049  E2 F0			    LOOP LOOP2
+ 004B  8D 16 0007 R		    LEA DX,MSG1
+ 004F  B4 09			    MOV AH,09H
+ 0051  CD 21			    INT 21H
+ 0053  8D 16 0000 R		    LEA DX,STRING
+ 0057  B4 09			    MOV AH,09H
+ 0059  CD 21			    INT 21H
+				    ;此处输入代码段代码
+ 005B  B4 4C			    MOV AH,4CH
+ 005D  CD 21			    INT 21H
+ 005F				CODES ENDS
+				    END START
+
+
+Microsoft (R) Macro Assembler Version 6.11		    06/12/19 15:48:40
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 005F	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 001F	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+KEY  . . . . . . . . . . . . . .	Byte	 0006	  DATAS	
+LOOP1  . . . . . . . . . . . . .	L Near	 0018	  CODES	
+LOOP2  . . . . . . . . . . . . .	L Near	 003B	  CODES	
+MSG1 . . . . . . . . . . . . . .	Byte	 0007	  DATAS	
+MSG2 . . . . . . . . . . . . . .	Byte	 0014	  DATAS	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STRING . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+
+	   0 Warnings
+	   0 Errors

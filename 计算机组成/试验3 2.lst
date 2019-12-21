@@ -1,0 +1,108 @@
+Microsoft (R) Macro Assembler Version 6.11		    06/12/19 15:53:29
+tempfile.asm						     Page 1 - 1
+
+
+ 0000				DATAS SEGMENT
+ 0000 48 45 4C 4C 4F 24			STRING DB 'HELLO$'
+ 0006 FE 02 01 00 FF			KEY DB -2,2,1,0,-1
+ 000B 20 20 20 4D 49 4E			MSG1 DB '   MING WEN:$'
+       47 20 57 45 4E 3A
+       24
+ 0018 20 20 20 4D 49 20			MSG2 DB '   MI WEN:$'
+       57 45 4E 3A 24
+				    ;此处输入数据段代码  
+ 0023				DATAS ENDS
+
+ 0000				STACKS SEGMENT
+				    ;此处输入堆栈段代码
+ 0000				STACKS ENDS
+
+ 0000				CODES SEGMENT
+				    ASSUME CS:CODES,DS:DATAS,SS:STACKS
+ 0000				START:
+ 0000  B8 ---- R		    MOV AX,DATAS
+ 0003  8E D8			    MOV DS,AX
+ 0005  8D 16 000B R		    LEA DX,MSG1
+ 0009  B4 09			    MOV AH,09H
+ 000B  CD 21			    INT 21H
+ 000D  8D 16 0000 R		    LEA DX,STRING
+ 0011  B4 09			    MOV AH,09H
+ 0013  CD 21			    INT 21H
+ 0015  B9 0005			    MOV CX,5
+ 0018  B0 00			    MOV AL,0
+ 001A  8B D9			    LOOP1:MOV BX,CX
+ 001C  51			    PUSH CX
+ 001D  8A 8F 0005 R		    MOV CL,KEY[BX-1]
+ 0021  38 C1			    CMP CL,AL
+ 0023  7C 06			    JL T1
+ 0025  D2 87 FFFF R		    ROL STRING[BX-1],CL
+ 0029  EB 06			    JMP S1
+ 002B  F6 D9			    T1:NEG CL
+ 002D  D2 8F FFFF R		    ROR STRING[BX-1],CL
+ 0031  59			    S1:POP CX
+ 0032  E2 E6			    LOOP LOOP1
+ 0034  8D 16 0018 R		    LEA DX,MSG2
+ 0038  B4 09			    MOV AH,09H
+ 003A  CD 21			    INT 21H
+ 003C  8D 16 0000 R		    LEA DX,STRING
+ 0040  B4 09			    MOV AH,09H
+ 0042  CD 21			    INT 21H
+ 0044  B9 0005			    MOV CX,5
+ 0047  B0 00			    MOV AL,0
+ 0049  8B D9			    LOOP2:MOV BX,CX
+ 004B  51			    PUSH CX
+ 004C  8A 8F 0005 R		    MOV CL,KEY[BX-1]
+ 0050  38 C1			    CMP CL,AL
+ 0052  7F 08			    JG T2
+ 0054  F6 D9			    NEG CL
+ 0056  D2 87 FFFF R		    ROL STRING[BX-1],CL
+ 005A  EB 04			    JMP S2
+ 005C  D2 8F FFFF R		    T2:ROR STRING[BX-1],CL
+ 0060  59			    S2:POP CX
+ 0061  E2 E6			    LOOP LOOP2
+ 0063  8D 16 000B R		    LEA DX,MSG1
+ 0067  B4 09			    MOV AH,09H
+ 0069  CD 21			    INT 21H
+ 006B  8D 16 0000 R		    LEA DX,STRING
+ 006F  B4 09			    MOV AH,09H
+ 0071  CD 21			    INT 21H
+				    ;此处输入代码段代码
+ 0073  B4 4C			    MOV AH,4CH
+ 0075  CD 21			    INT 21H
+ 0077				CODES ENDS
+				    END START
+				T
+
+Microsoft (R) Macro Assembler Version 6.11		    06/12/19 15:53:29
+tempfile.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CODES  . . . . . . . . . . . . .	16 Bit	 0077	  Para	  Private 
+DATAS  . . . . . . . . . . . . .	16 Bit	 0023	  Para	  Private 
+STACKS . . . . . . . . . . . . .	16 Bit	 0000	  Para	  Private 
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+KEY  . . . . . . . . . . . . . .	Byte	 0006	  DATAS	
+LOOP1  . . . . . . . . . . . . .	L Near	 001A	  CODES	
+LOOP2  . . . . . . . . . . . . .	L Near	 0049	  CODES	
+MSG1 . . . . . . . . . . . . . .	Byte	 000B	  DATAS	
+MSG2 . . . . . . . . . . . . . .	Byte	 0018	  DATAS	
+S1 . . . . . . . . . . . . . . .	L Near	 0031	  CODES	
+S2 . . . . . . . . . . . . . . .	L Near	 0060	  CODES	
+START  . . . . . . . . . . . . .	L Near	 0000	  CODES	
+STRING . . . . . . . . . . . . .	Byte	 0000	  DATAS	
+T1 . . . . . . . . . . . . . . .	L Near	 002B	  CODES	
+T2 . . . . . . . . . . . . . . .	L Near	 005C	  CODES	
+
+	   0 Warnings
+	   0 Errors
