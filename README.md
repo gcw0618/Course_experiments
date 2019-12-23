@@ -1,2 +1,4 @@
 # Course_experiments
-Computer Organization,Computer Networks,data structure
+Computer Organization
+Computer Networks
+data structure
